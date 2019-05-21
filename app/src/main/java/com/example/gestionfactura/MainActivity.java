@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.tapadoo.alerter.Alerter;
 
 
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView textView;
@@ -32,11 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.e("4B","OnCreate");
         textView =findViewById(R.id.txt_dato);
         progressBar = findViewById(R.id.id_progressbar);
-
         mReciver = new Bateria();
         registerReceiver(mReciver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
        // getWindow().setBackgroundDrawableResource(android.R.color.white);
-
 
     }
 
