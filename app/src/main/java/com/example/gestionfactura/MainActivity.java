@@ -57,16 +57,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
     private void showAlertWithButtons() {
         Alerter.create(MainActivity.this)
                 .setTitle("Alert Title")
                 .setText("Alert text...").enableSwipeToDismiss().setBackgroundColorRes(R.color.colorAccent).show();
     }
-
-
-
 
 
     @Override
