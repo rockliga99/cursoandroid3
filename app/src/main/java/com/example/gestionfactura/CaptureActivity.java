@@ -2,6 +2,7 @@ package com.example.gestionfactura;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -93,7 +95,8 @@ public class CaptureActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.delete){
-            //onDeleteMenuTap();
+            onDeleteMenuTap();
+
             return true;
         }else if(item.getItemId() == R.id.save){
             onSaveMenuTap();
@@ -167,6 +170,50 @@ public class CaptureActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
     }
+
+
+    private void onDeleteMenuTap(){
+        if(!hasPermissionToWrite()){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_PERMISSION_STORAGE_DELETE);
+        }else{
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        try{
+                            deleteImageFile();
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Eliminar imagen").setMessage("quieres eliminar esta imagen?").setPositiveButton("YES",dialogClickListener)
+                    .setNegativeButton("No",dialogClickListener).show();
+        }
+    }
+
+
+    private void deleteImageFile() throws  IOException{
+        File storage = new File(Environment.getExternalStorageDirectory() + "UOCImageApp");
+        File image = new File(storage + "/" + this.File_NAME);
+
+        if(image.exists()){
+            image.delete();
+            Toast.makeText(this, "file dileted", Toast.LENGTH_SHORT).show();
+            imageView.setImageResource(0);
+            txtMessage.setVisibility(View.VISIBLE);
+        }else{
+            Toast.makeText(this, "image no encotrada", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 
     @Override
