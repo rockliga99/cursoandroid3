@@ -138,13 +138,13 @@ public class CaptureActivity extends AppCompatActivity implements View.OnClickLi
            if(imageView.getDrawable() !=null){
                createFolder();
                String stogareDir = Environment.getExternalStorageDirectory() + "/UOCImageApp";
-
                createImageFile(stogareDir, this.File_NAME, bitmap);
            }else{
                Toast.makeText(this, "tome unafoto primero", Toast.LENGTH_SHORT).show();
            }
        }
    }
+
 
     private void createFolder() {
        String myFolder = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+FOLDER_NAME;
@@ -201,7 +201,7 @@ public class CaptureActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void deleteImageFile() throws  IOException{
-        File storage = new File(Environment.getExternalStorageDirectory() + "UOCImageApp");
+        File storage = new File(Environment.getExternalStorageDirectory() + "/UOCImageApp");
         File image = new File(storage + "/" + this.File_NAME);
 
         if(image.exists()){
